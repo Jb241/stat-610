@@ -7,8 +7,8 @@ compute_f_hat <- function(z, x, y, omega) {
   weights = make_weight_matrix(z, x, omega)
   X = make_predictor_matrix(x)
   f_hat = c(1, z) %*% 
-    solve(t(X) %*% (apply(X, 1, function(X) X * weights))) %*% 
-    t(X) %*% (weights * y)
+    solve(t(sweep(X, 1, weights, FUN = "*")) %*% sweep(X, 1, weights, FUN = "*")) %*% 
+    t(sweep(X, 1, weights, FUN = "*")) %*% (weights * y)
   return(f_hat)
 }
 
